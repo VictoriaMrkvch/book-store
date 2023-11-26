@@ -1,9 +1,10 @@
-package book.store.intro.repository.impl;
+package book.store.intro.repository.book;
 
 import book.store.intro.model.Book;
-import book.store.intro.repository.BookRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -38,6 +39,14 @@ public class BookRepositoryImpl implements BookRepository {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (EntityManager entityManager = sessionFactory.createEntityManager()) {
+            Book book = entityManager.find(Book.class, id);
+            return Optional.ofNullable(book);
         }
     }
 
