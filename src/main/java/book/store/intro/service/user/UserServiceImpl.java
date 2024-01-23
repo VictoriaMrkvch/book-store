@@ -2,11 +2,14 @@ package book.store.intro.service.user;
 
 import book.store.intro.dto.user.request.UserRegistrationRequestDto;
 import book.store.intro.dto.user.response.UserResponseDto;
+import book.store.intro.exception.EntityNotFoundException;
 import book.store.intro.exception.RegistrationException;
 import book.store.intro.mapper.user.UserMapper;
 import book.store.intro.model.User;
 import book.store.intro.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +34,13 @@ public class UserServiceImpl implements UserService {
         user.setShippingAddress(requestDto.getShippingAddress());
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
+    }
+
+    @Override
+    public User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findByEmail(authentication.getName()).orElseThrow(
+                () -> new EntityNotFoundException("Can't find user with email: "
+                        + authentication.getName()));
     }
 }

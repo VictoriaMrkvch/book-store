@@ -6,10 +6,12 @@ import book.store.intro.dto.book.BookDtoWithoutCategoryIds;
 import book.store.intro.dto.book.CreateBookRequestDto;
 import book.store.intro.model.Book;
 import book.store.intro.model.Category;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
@@ -24,5 +26,12 @@ public interface BookMapper {
         bookDto.setCategoriesIds(book.getCategories().stream()
                 .map(Category::getId)
                 .collect(Collectors.toList()));
+    }
+
+    @Named("bookFromId")
+    default Book bookFromId(Long id) {
+        return Optional.ofNullable(id)
+               .map(Book::new)
+               .orElse(null);
     }
 }
