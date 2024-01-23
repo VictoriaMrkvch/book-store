@@ -5,6 +5,7 @@ import book.store.intro.dto.shoppingcart.request.UpdateCartItemRequestDto;
 import book.store.intro.dto.shoppingcart.response.CartItemResponseDto;
 import book.store.intro.exception.EntityNotFoundException;
 import book.store.intro.mapper.shoppingcart.CartItemMapper;
+import book.store.intro.model.Book;
 import book.store.intro.model.CartItem;
 import book.store.intro.model.ShoppingCart;
 import book.store.intro.model.User;
@@ -26,10 +27,10 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public CartItemResponseDto addCartItem(CreateCartItemRequestDto requestDto) {
-        CartItem cartItem = cartItemMapper.toModel(requestDto,
-                bookRepository.findById(requestDto.getBookId()).orElseThrow(
-                        () -> new EntityNotFoundException("Can't find book by id "
-                                + requestDto.getBookId())), getShoppingCart());
+        Book book = bookRepository.findById(requestDto.getBookId()).orElseThrow(
+                () -> new EntityNotFoundException("Can't find book by id "
+                        + requestDto.getBookId()));
+        CartItem cartItem = cartItemMapper.toModel(requestDto, book, getShoppingCart());
         return cartItemMapper.toDto(cartItemRepository.save(cartItem));
     }
 
