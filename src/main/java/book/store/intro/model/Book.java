@@ -14,11 +14,13 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
+@NoArgsConstructor
 @Data
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
@@ -45,6 +47,10 @@ public class Book {
     private Set<Category> categories = new HashSet<>();
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
+
+    public Book(Long id) {
+        this.id = id;
+    }
 
     public void addCategory(Category category) {
         this.categories.add(category);
