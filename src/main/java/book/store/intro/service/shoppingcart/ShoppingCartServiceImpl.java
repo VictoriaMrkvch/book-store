@@ -16,7 +16,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final UserService userService;
     private final ShoppingCartMapper shoppingCartMapper;
-    private final CartItemService cartItemService;
 
     @Override
     public ShoppingCartResponseDto getShoppingCart() {
@@ -25,5 +24,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .orElseThrow(() -> new EntityNotFoundException("Can't find shopping cart by id "
                         + user.getId()));
         return shoppingCartMapper.toDto(shoppingCart);
+    }
+
+    @Override
+    public ShoppingCart getShoppingCartByUser() {
+        User user = userService.getAuthenticatedUser();
+        return shoppingCartRepository.findById(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Can't find shopping cart by id "
+                        + user.getId()));
     }
 }
