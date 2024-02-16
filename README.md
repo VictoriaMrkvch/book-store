@@ -5,12 +5,13 @@ choose books by different categories, add book to the shopping cart and place an
 Our store offers a wide range of books across various genres and authors for all age groups.
 
 ### Technologies and Tools Used:
-1. Spring Boot
+1. Spring Boot v3.1.5
 2. Spring Security
 3. Spring Data JPA
 4. Swagger
-5. MySQL
+5. MySQL v8.0.33
 6. Docker
+7. Java v17
 
 ### Controllers
 
@@ -50,9 +51,11 @@ To run this project locally, follow these steps:
 3. Create a .env file and set up environment variables (e.g., database connection string, JWT secret).
 4. Run Docker.
 5. Run the command `docker compose up`.
-6. For testing using Swagger, open your browser and enter the URL: `http://localhost:8082/api/swagger-ui/index.html#/`. 
+6. For testing using Swagger, open your browser and enter the URL: `http://localhost:8088/api/swagger-ui/index.html#/`. 
+Placeholder can be changes in properties.
 Then register a new user and test the app.
 7. For testing using Postman, open the Postman web or desktop client and enter the URL `http://localhost:8088/api/{endpoint}`.
+   Placeholder can be changes in properties.
 
 
 We welcome contributions from the community. If you'd like to contribute to the project, please fork the repository,
